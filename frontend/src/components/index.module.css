@@ -1,0 +1,36 @@
+.link {
+    margin-right: 20px !important;
+    font-size: 16px !important;
+    color: rgb(10, 214, 44) !important;
+}
+
+.btnColor{
+   background-color: #242425 !important;
+}
+
+.btn {
+    margin-right: 20px !important;
+    margin-top: 20px !important;
+    font-size: 16px !important;
+    color: rgb(244, 240, 248) !important;
+    background-color: #202220;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+.field{
+  margin-top:20px !important;
+  margin-bottom:20px !important;
+  display: block !important;
+}
+
+.err{
+  color: #910c0c;
+   margin-right:20px !important;
+}
+
+.appbar{
+   background-color: #242325 !important;
+}
+
