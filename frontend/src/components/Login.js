@@ -5,6 +5,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import PeopleIcon from "@mui/icons-material/People";
+import { AppBar } from "@mui/material";
 
 
 import classes from "./index.module.css";
@@ -14,7 +19,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [userpassword, setUserpassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const url = "http://localhost:5000/users";
+  const url = "http://localhost:5000/admin";
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -22,11 +27,11 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${url}/login`, {
-        email: username,
+        username: username,
         userpassword: userpassword,
       });
       if (response.status === 200) {
-        navigate('/products')
+        navigate('/records')
         console.log("Login successfully")
       }
     } catch (err) {
@@ -53,6 +58,24 @@ const Login = () => {
         "& .MuiTextField-root": { m: 2, width: "40ch" },
       }}
     >
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" className={classes.appbar}>
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <PeopleIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Human Resource System Admin
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Typography
         sx={{ m: 2 }}
         variant="h6"
@@ -60,7 +83,7 @@ const Login = () => {
         component="h2"
         gutterBottom
       >
-        Log in your account
+        Log in as admin
       </Typography>
       <p className={classes.err}>
         <i>
@@ -70,14 +93,16 @@ const Login = () => {
       <form noValidate autoComplete="off" onSubmit={loginUser}>
         <TextField
           required
-          label="Email address"
+          label="Admin Username"
+          variant="outlined"
           className={classes.field}
           fullWidth
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           required
-          label="Password"
+          variant="outlined"
+          label="Admin Password"
           type="password"
           autoComplete="current-password"
           className={classes.field}
@@ -87,10 +112,10 @@ const Login = () => {
         <Button
           sx={{ m: 2, mt: 1, width: 320, height: 40 }}
           type="submit"
-          variant="contained"
+          variant="outlined"
           className={classes.btnColor}
         >
-          Login
+          Login as Admin
         </Button>
         <Typography
           variant="p"
@@ -100,14 +125,7 @@ const Login = () => {
           fontSize="medium"
           display="block"
           sx={{ m: 2, mt: -1 }}
-        >
-          <i>
-            <b>You don't have an account?</b>
-          </i>{" "}
-          <Link href="./Register" underline="always" fontSize="medium">
-            Sign up
-          </Link>
-        </Typography>
+        ></Typography>
       </form>
     </Container>
   );

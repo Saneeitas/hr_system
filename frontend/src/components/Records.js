@@ -12,46 +12,42 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import PeopleIcon from "@mui/icons-material/People";
 import { Button, AppBar,Typography } from "@mui/material";
 
 import classes from "./index.module.css"
 
-const ProductList = () => {
+const Records = () => {
   //get data from API
-  const [products, getProducts] = useState([]);
+  const [records, getRecords] = useState([]);
    const navigate = useNavigate();
   const url = "http://localhost:5000";
 
   useEffect(() => {
-    getAllProducts();
+    getAllRecords();
   }, []);
 
-  const getAllProducts = () => {
-    axios.get(`${url}/products`)
+  const getAllRecords = () => {
+    axios.get(`${url}/records/allrecords`)
       .then((response) => {
-        const allProducts = response.data;
+        const allRecords = response.data;
         //add data to our state
-        getProducts(allProducts)
+        getRecords(allRecords)
         
       })
       .catch(error => console.log(`Error: ${error}`));
    
   };
 
-  const deleteProduct = (id) => {
+  const deleteRecord = (id) => {
     axios
-      .delete(`${url}/products/${id}`)
+      .delete(`${url}/records/delete/${id}`)
       .then((response) => {
-        getAllProducts();
+        getAllRecords();
       })
       .catch((error) => console.log(`Error: ${error}`));
       
   };
-
-  const logout = () => {
-    navigate("/login");
-  }
 
   return (
     <div>
@@ -65,55 +61,54 @@ const ProductList = () => {
               aria-label="menu"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <PeopleIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Product Record Keeper
+              Human Resources System
             </Typography>
-            <Button color="error" onClick={() => logout()}>
-              Logout
-            </Button>
+            <Link className={classes.btn} to="/add-record">
+              <Typography variant="h6" component="body2" sx={{ flexGrow: 1 }}>
+                Add Record
+              </Typography>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
-      <Link className={classes.btn} to="/add-product">
-        <Typography variant="h6" component="body2" sx={{ flexGrow: 1 }}>
-          New Product
-        </Typography>
-      </Link>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 250 }} aria-label="simple table">
-          <TableHead>
+          <TableHead className={classes.appbar}>
             <TableRow>
-              <TableCell>No</TableCell>
-              <TableCell align="left">Product Name</TableCell>
-              <TableCell align="left">Price</TableCell>
-              <TableCell align="left">Date</TableCell>
-              <TableCell align="left">Actions</TableCell>
+              <TableCell>S/N</TableCell>
+              <TableCell align="left">FULL NAME</TableCell>
+              <TableCell align="left">EMAIL</TableCell>
+              <TableCell align="left">PHONE NUMBER</TableCell>
+              <TableCell align="left">ADDRESS</TableCell>
+              <TableCell align="left">POSITION</TableCell>
+              <TableCell align="left">SALARY</TableCell>
+              <TableCell align="left">DELETE</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product, index) => (
+            {records.map((record, index) => (
               <TableRow
-                key={product.id}
+                key={record.id}
                 sx={{ "&:last-child td, &:last-child th": { border: -1 } }}
               >
                 <TableCell component="th" scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell align="left">{product.title}</TableCell>
-                <TableCell align="left">N {product.price}</TableCell>
-                <TableCell align="left">{product.createdAT}</TableCell>
+                <TableCell align="left">{record.fullname}</TableCell>
+                <TableCell align="left">{record.email}</TableCell>
+                <TableCell align="left">{record.phone_number}</TableCell>
+                <TableCell align="left">{record.address}</TableCell>
+                <TableCell align="left">{record.position}</TableCell>
+                <TableCell align="left">{record.salary} Naira</TableCell>
                 <TableCell align="left">
-                  <Link className={classes.link} to={`/edit/${product.id}`}>
-                    Edit
-                  </Link>{" "}
-                  {"  "}
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="error"
                     size="small"
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={() => deleteRecord(record.id)}
                   >
                     Delete
                   </Button>
@@ -127,4 +122,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Records;
